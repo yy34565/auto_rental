@@ -1,5 +1,3 @@
-import request from '@/utils/request'
-
 
 import requestHttp from '@/utils/request'
 //登录
