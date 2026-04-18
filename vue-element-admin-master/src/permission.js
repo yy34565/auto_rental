@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -48,7 +48,23 @@ router.beforeEach(async(to, from, next) => {
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
+
+          // 提取友好错误信息
+          let errorMsg = '系统异常，请联系管理员'
+          if (error?.response?.data?.message) {
+            errorMsg = error.response.data.message
+          } else if (error?.message) {
+            errorMsg = error.message
+          } else if (typeof error === 'string') {
+            errorMsg = error
+          }
+
+          Message.error({
+            message: errorMsg,
+            duration: 5000,
+            showClose: true
+          })
+
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
