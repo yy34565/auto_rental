@@ -91,7 +91,8 @@ export default {
         if (res.success) {
           removeToken()
           removeSessionStoreage()
-          this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+          window.localtion.herf='/'
+          // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         }
       }).catch(() => {
         this.$message({
